@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 17:55:11 by dchheang          #+#    #+#             */
-/*   Updated: 2021/11/03 16:24:07 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/11/04 15:41:11 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	readbuff(char **buff, char **line)
 		return (0);
 	}
 	len = endline - *buff;
-	printf("len = %d\n", len);
 	*line = ft_substr(*buff, 0, len);
+	len++;
 	tmp = ft_substr(*buff, len, ft_strlen(*buff) - len);
 	free(*buff);
 	*buff = tmp;

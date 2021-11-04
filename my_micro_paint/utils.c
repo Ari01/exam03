@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 14:54:17 by dchheang          #+#    #+#             */
-/*   Updated: 2021/11/03 16:31:40 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/11/04 17:18:22 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	ft_strlen(char *s)
 void	ft_putstr_fd(char *s, int fd)
 {
 	write(fd, s, ft_strlen(s));
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+	write(fd, "\n", 1);
 }
 
 char	*ft_strdup(char *s)
@@ -102,4 +108,67 @@ char	*ft_substr(char *s, int start, int len)
 	}
 	sub[i] = 0;
 	return (sub);
+}
+
+int		get_split_len(char *s, char *charset)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	n = 0;
+	while (s[i])
+	{
+		while (s[i] && ft_strchr(charset, s[i]))
+			i++;
+		if (s[i])
+		{
+			n++;
+			while (s[i] && !ft_strchr(charset, s[i]))
+				i++;
+		}
+	}
+	return (n);
+}
+
+char	**ft_split(char *s, char *charset)
+{
+	char	**split;
+	int		split_len;
+	int		i;
+	int		j;
+	int		start;
+
+	split_len = get_split_len(s, charset);
+	split = malloc(sizeof(*split) * (split_len + 1));
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		while (s[i] && ft_strchr(charset, s[i]))
+			i++;
+		if (s[i])
+		{
+			start = i;
+			while (s[i] && !ft_strchr(charset, s[i]))
+				i++;
+			split[j] = ft_substr(s, start, i - start);
+			j++;
+		}
+	}
+	split[j] = 0;
+	return (split);
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
